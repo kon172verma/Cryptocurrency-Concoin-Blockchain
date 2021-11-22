@@ -1,26 +1,34 @@
 import datetime
 
+class Block:
+    def __init__(self, index, data, nonce, prevHash) -> None:
+        self.index = index
+        self.timestamp = int(datetime.datetime.now().timestamp())
+        self.data = data
+        self.nonce = nonce
+        self.prevHash = prevHash
 
 class Blockchain:
-    def __init__(self):
-        # Initializing an empty blockchain
+    def __init__(self) -> None:
         self.chain = []
-        # Created the genesis block
-        self.createBlock(1, 0)
 
-    def createBlock(self, proof, prevHash):
-        # Declaring the structure of our block
-        block = {
-            'index': len(self.chain),
-            'timestamp': datetime.datetime.now(),
-            'data': [],
-            'proof': proof,
-            'prevHash': prevHash
-        }
-        # Appending the newly created block to our chain
+    def prevHash(self):
+        if len(self.chain) == 0:
+            return 0
+        return self.chain[-1].prevHash
+
+    def createBlock(self, data, nonce) -> None:
+        block = Block(len(self.chain), data, nonce, self.prevHash())
         self.chain.append(block)
 
+    def printchain(self) -> None:
+        for i in self.chain:
+            print(i.index, i.timestamp, i.data, i.proof, i.prevHash)
 
-blockchain = Blockchain()
-blockchain.createBlock(2, 1)
-print(blockchain.chain)
+    
+
+chain = Blockchain()
+chain.createBlock('some string for now', 0)
+chain.createBlock('some string for now', 1)
+chain.createBlock('some string for now', 2)
+chain.printchain()
