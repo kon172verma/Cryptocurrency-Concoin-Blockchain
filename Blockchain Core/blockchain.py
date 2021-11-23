@@ -11,7 +11,7 @@ class Block:
     # prevHash(hash of the previous block), hash(hash value of the current block).
     def __init__(self, index, data, prevHash) -> None:
         self.index = index
-        self.timestamp = int(datetime.datetime.now().timestamp())
+        self.timestamp = datetime.datetime.now().timestamp()
         self.nonce = 'YTD'
         self.data = data
         self.prevHash = prevHash
@@ -93,7 +93,7 @@ class Blockchain:
                         'data': self.chain[i].data,
                         'nonce': self.chain[i].nonce,
                         'prevHash': self.chain[i].prevHash
-                    }, sort_keys=True)).encode()).hexdigest() != self.chain[i].hash:
-                    # or self.chain[i].timestamp - self.chain[i-1].timestamp <= 0:
+                    }, sort_keys=True)).encode()).hexdigest() != self.chain[i].hash \
+                    or self.chain[i-1].timestamp >= self.chain[i].timestamp:
                     return False
         return True
