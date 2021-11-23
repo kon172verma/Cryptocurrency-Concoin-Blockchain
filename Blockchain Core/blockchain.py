@@ -69,7 +69,7 @@ class Blockchain:
     def verifyChain(self) -> bool:
 
         # Test for verifing the Genesis block.
-        if len(self.chain) == 1 and (
+        if len(self.chain) >= 1 and (
                 self.chain[0].index != 0 
                 or self.chain[0].prevHash != 0
                 or hashlib.sha256((json.dumps({
