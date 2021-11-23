@@ -65,9 +65,23 @@ class Blockchain:
         block.nonce, block.hash = self.pow(block)
         self.chain.append(block)
 
-# Test code.
-chain = Blockchain()
-chain.addBlock()
-chain.addBlock()
-chain.addBlock()
-chain.printchain()
+    # Function to verify our blockchain.
+    def verifyChain(self) -> bool:
+        if len(self.chain)>1:
+            for i in range(1,len(self.chain)):
+                return \
+                    self.chain[i].index == i and \
+                    self.chain[i].timestamp - self.chain[i-1].timestamp > 0 and \
+                    self.chain[i].prevHash == self.chain[i-1].hash and \
+                    hashlib.sha256((json.dumps({
+                        'index': self.chain[i].index,
+                        'timestamp': self.chain[i].timestamp,
+                        'data': self.chain[i].data,
+                        'nonce': self.chain[i].nonce,
+                        'prevHash': self.chain[i].prevHash
+                    }, sort_keys=True)).encode()).hexdigest() == self.chain[i].hash
+        # test for index: index of i - (i-1) = 1
+        # test for timestamp: timestamp of i-1 < i
+        # test for prevHash: prevHash of i = hash of i-1
+        # test for pow: hash of i = hash generated using nonce.
+        pass
