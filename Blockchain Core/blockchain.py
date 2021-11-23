@@ -67,21 +67,33 @@ class Blockchain:
 
     # Function to verify our blockchain.
     def verifyChain(self) -> bool:
+
+        # Test for verifing the Genesis block.
+        if len(self.chain) == 1 and (
+                self.chain[0].index != 0 
+                or self.chain[0].prevHash != 0
+                or hashlib.sha256((json.dumps({
+                    'index': self.chain[0].index,
+                    'timestamp': self.chain[0].timestamp,
+                    'data': self.chain[0].data,
+                    'nonce': self.chain[0].nonce,
+                    'prevHash': self.chain[0].prevHash
+                }, sort_keys=True)).encode()).hexdigest() != self.chain[0].hash 
+            ):
+            return False
+        
+        # Test for verifing the rest of the chain.
         if len(self.chain)>1:
             for i in range(1,len(self.chain)):
-                return \
-                    self.chain[i].index == i and \
-                    self.chain[i].timestamp - self.chain[i-1].timestamp > 0 and \
-                    self.chain[i].prevHash == self.chain[i-1].hash and \
-                    hashlib.sha256((json.dumps({
+                if self.chain[i].index != i \
+                    or self.chain[i].prevHash != self.chain[i-1].hash \
+                    or hashlib.sha256((json.dumps({
                         'index': self.chain[i].index,
                         'timestamp': self.chain[i].timestamp,
                         'data': self.chain[i].data,
                         'nonce': self.chain[i].nonce,
                         'prevHash': self.chain[i].prevHash
-                    }, sort_keys=True)).encode()).hexdigest() == self.chain[i].hash
-        # test for index: index of i - (i-1) = 1
-        # test for timestamp: timestamp of i-1 < i
-        # test for prevHash: prevHash of i = hash of i-1
-        # test for pow: hash of i = hash generated using nonce.
-        pass
+                    }, sort_keys=True)).encode()).hexdigest() != self.chain[i].hash:
+                    # or self.chain[i].timestamp - self.chain[i-1].timestamp <= 0:
+                    return False
+        return True
