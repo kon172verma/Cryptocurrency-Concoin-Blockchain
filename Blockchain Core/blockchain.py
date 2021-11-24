@@ -25,9 +25,23 @@ class Blockchain:
         self.chain = []
 
     # Function to print all the blocks in our blockchain.
-    def printchain(self) -> None:
+    def printChain(self) -> None:
         for i in self.chain:
             print(i.index, i.timestamp, i.data, i.nonce, i.prevHash, i.hash)
+
+    # Function to return all the blocks in our blockchain in json format.
+    def getChain(self):
+        chain = []
+        for block in self.chain:
+            chain.append({
+                'index': block.index,
+                'timestamp': block.timestamp,
+                'data': block.data,
+                'nonce': block.nonce,
+                'prevHash': block.prevHash,
+                'hash': block.hash
+            })
+        return chain
 
     # Function to fetch the hash of the last block in our blockchain.
     def prevHash(self):
@@ -59,8 +73,8 @@ class Blockchain:
         return nonce, value
 
     # Function to add a new block to our blockchain.
-    def addBlock(self):
-        data = 'some data for now'
+    def addBlock(self, data):
+        # data = 'some data for now'
         block = self.createBlock(data)
         block.nonce, block.hash = self.pow(block)
         self.chain.append(block)
