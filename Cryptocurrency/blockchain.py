@@ -64,8 +64,8 @@ class Blockchain:
                 return False
         return True
 
-    # Function to mine a new block with the given data.
-    def mine_block(self, data='ABC'):
+    # Function to add a new block with the given data.
+    def add_block(self, data='ABC'):
         block = self.create_block(data)
         block['nonce'], block['hash'] = self.proof_of_work(block)
         assert self.verify_chain(), 'Chain corrupted.!'
