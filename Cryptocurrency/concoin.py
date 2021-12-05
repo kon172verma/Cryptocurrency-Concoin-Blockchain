@@ -40,10 +40,10 @@ class Concoin(Blockchain):
     # Function to mine a new block.
     def mine_block(self):
         data = self.get_transaction_data()
-        if data != []:
-            self.add_block(data)
-            self.remove_transactions(len(data))
-        else:
+        if data == []:
             print('Empty transaction pool.!')
-
+            return False
+        self.add_block(data)
+        self.remove_transactions(len(data))
+        return True
 
