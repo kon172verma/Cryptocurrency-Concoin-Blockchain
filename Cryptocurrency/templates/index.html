@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard-Concoin{% endblock title %}
+
+{%- block styles %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+{%- endblock styles %}
+
+{% block body %}
+
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">&sdot;&sdot;&sdot;&nbsp;&nbsp;Dashboard - Concoin&nbsp;&nbsp;&sdot;&sdot;&sdot;</a>
+    </nav>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+                <div class="transaction border rounded col1">
+                    <h5 class="text-muted text-center">Transaction Pool</h5>
+                    <hr class="border-1 border-top">
+                    {% for transaction in transactions %}
+                        <div class="transaction-card border rounded">
+                            {% for key,value in transaction.items() %}
+                                <p><b>{{key.capitalize()}}</b> : {{value}}</p>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="blockchain border rounded col2">
+                    <h5 class="text-muted text-center">Blockchain</h5>
+                    <hr class="border-1 border-top">
+                    {% for block in blockchain %}
+                    <div class="block-card border rounded">
+                        {% for key,value in block.items() %}
+                            <p><b>{{key.capitalize()}}</b> : {{value}}</p>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="blockchain border rounded col3">
+                    <h5 class="text-muted text-center">Nodes Connected</h5>
+                    <hr class="border-1 border-top">
+                </div>
+                Column
+            </div>
+            <div class="col-lg-1"></div>
+        </div>
+    </div>
+
+{% endblock body %}
