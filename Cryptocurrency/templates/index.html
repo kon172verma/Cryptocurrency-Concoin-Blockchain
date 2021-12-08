@@ -6,49 +6,121 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
 {%- endblock styles %}
 
-{% block body %}
-
+{% block navbar %}
     <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">&sdot;&sdot;&sdot;&nbsp;&nbsp;Dashboard - Concoin&nbsp;&nbsp;&sdot;&sdot;&sdot;</a>
+        <a class="navbar-brand" href="#">
+            &sdot;&sdot;&sdot;&nbsp;&nbsp;Dashboard - Concoin&nbsp;&nbsp;&sdot;&sdot;&sdot;
+        </a>
     </nav>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-3">
-                <div class="transaction border rounded col1">
-                    <h5 class="text-muted text-center">Transaction Pool</h5>
-                    <hr class="border-1 border-top">
-                    {% for transaction in transactions %}
-                        <div class="transaction-card border rounded">
-                            {% for key,value in transaction.items() %}
-                                <p><b>{{key.capitalize()}}</b> : {{value}}</p>
-                            {% endfor %}
-                        </div>
-                    {% endfor %}
+{% endblock navbar %}
+
+{% block transaction_pool %}
+    <div class="box border rounded">
+        <h5 class="text-muted text-center">Transaction Pool</h5>
+        <hr class="border-1 border-top">
+        {% if transactions==[] %}
+        <div class="text-center pool-empty">No transaction to show.</div>
+        {% endif %}
+        {% for transaction in transactions %}
+        <div class="transaction-card border rounded text-center">
+            <div><b>Transaction Id: </b>XYZ123</div>
+            <div><b>Sender: </b>{{transaction['sender']}}</div>
+            <div><b>Receiver: </b>{{transaction['receiver']}}</div>
+            <div><b>Amount: </b>{{transaction['amount']}}</div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock transaction_pool %}
+
+{% block blockchain %}
+    <div class="box border rounded">
+        <h5 class="text-muted text-center">Blockchain</h5>
+        <hr class="border-1 border-top">
+        {% if blockchain==[] %}
+        <div class="text-center pool-empty">Blockchain empty.</div>
+        {% endif %}
+        {% for block in blockchain %}
+        <div class="block-card border rounded">
+            <div><b>Block </b>#{{block['index']+1}}</div>
+            <div><b>Timestamp: </b>{{block['timestamp']}}</div>
+            <div><b>Nonce: </b>{{block['nonce']}}</div>
+            <div>
+                <b>Transactions data: </b>
+                {% for transaction in block['data'] %}
+                <div class="text-center">
+                    <i>Sender: </i>{{transaction['sender']}}
+                    <i>Receiver: </i>{{transaction['receiver']}}
+                    <i>Amount: </i>{{transaction['amount']}}
                 </div>
+                {% endfor %}
             </div>
-            <div class="col-lg-4">
-                <div class="blockchain border rounded col2">
-                    <h5 class="text-muted text-center">Blockchain</h5>
-                    <hr class="border-1 border-top">
-                    {% for block in blockchain %}
-                    <div class="block-card border rounded">
-                        {% for key,value in block.items() %}
-                            <p><b>{{key.capitalize()}}</b> : {{value}}</p>
-                        {% endfor %}
-                    </div>
-                    {% endfor %}
-                </div>
+            <div class="text-overflow"><b>Previous Hash: </b>{{block['prev_hash']}}</div>
+            <div class="text-overflow"><b>Hash: </b>{{block['hash']}}</div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock blockchain %}
+
+{% block nodes %}
+    <div class="box border rounded">
+        <h5 class="text-muted text-center">Nodes Connected</h5>
+        <hr class="border-1 border-top">
+    </div>
+{% endblock nodes %}
+
+{% block mine_verify %}
+    <div class="box border rounded">
+        <h5 class="text-muted text-center">Mine & Verify</h5>
+        <hr class="border-1 border-top">
+        <div class="mine-verify">
+            <div class="btn-mssg">
+                <a href="/mine_block">
+                    <button type="button" class="btn btn-secondary">Mine Block&nbsp;</button>
+                </a>
+                <p class="btn-mssg-mssg">Click to mine a new block.</p>
             </div>
-            <div class="col-lg-3">
-                <div class="blockchain border rounded col3">
-                    <h5 class="text-muted text-center">Nodes Connected</h5>
-                    <hr class="border-1 border-top">
-                </div>
-                Column
+            <div class="btn-mssg">
+                <a href="/verify_chain">
+                    <button type="button" class="btn btn-secondary">Verify Chain</button>
+                </a>
+                <p class="btn-mssg-mssg">Click to verify blockchain.</p>
             </div>
-            <div class="col-lg-1"></div>
+            {% if alert!='' %}
+            <div class="btn-mssg-alert alert alert-secondary text-center" role="alert">{{alert}}</div>
+            {% endif %}
         </div>
     </div>
+{% endblock mine_verify %}
 
-{% endblock body %}
+{% block add_transaction %}
+    <div class="box border rounded">
+        <h5 class="text-muted text-center">Add Transaction</h5>
+        <hr class="border-1 border-top">
+        <div class="add-transaction">
+            <form method="post" action="{{ url_for('add_transaction') }}" autocomplete="off">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Sender</span>
+                    <input type="text" class="form-control" name="sender">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Receiver</span>
+                    <input type="text" class="form-control" name="receiver">
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Amount</span>
+                    <input type="text" class="form-control" name="amount">
+                </div>
+                <div class="random-transactions">
+                    <button type="submit" class="btn btn-secondary">Add transaction</button>
+                </div>
+            </form>
+            <form method="get" action="{{ url_for('add_random_transactions') }}" autocomplete="off">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control transaction-number" placeholder="# transactions"
+                        name="transaction-number">
+                    <button class="btn btn-secondary" type="submit">Add random transactions</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock add_transaction %}

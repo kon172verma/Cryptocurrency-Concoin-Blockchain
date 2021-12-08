@@ -1,36 +1,62 @@
-html, body {height: 100%;}
-
 .navbar-brand {
   margin-left: auto;
   margin-right: auto;
 }
-
-.row {
-  padding: 0 10px;
-}
 .col {
   padding: 0;
 }
-
-.col1,
-.col2,
-.col3 {
-  margin: 20px 10px;
-}
-
 hr {
   margin: 10px;
 }
-
-.transaction, .blockchain {
+.box {
   padding-top: 10px;
-  height:100%;
-  overflow: auto;
+  margin: 20px 0;
 }
-
-.transaction-card, .block-card{
-    padding: 10px;
-    margin: 10px;
-    height: auto;
-    background-color: #F6F6F6;
+.mine-verify {
+  padding: 0 10px 10px 10px;
+}
+.btn-mssg {
+  padding: 10px 10px 0 10px;
+  display: flex;
+  align-items: baseline;
+}
+.btn-mssg-alert {
+  padding: 10px;
+  margin: 20px 10px 10px 10px;
+}
+.btn-mssg-mssg {
+  padding-left: 10px;
+  color: gray;
+}
+.transaction-card,
+.block-card {
+  padding: 10px;
+  margin: 10px;
+  height: auto;
+  background-color: #f6f6f6;
+}
+.text-overflow {
+  overflow: hidden;
+}
+.pool-empty {
+  padding: 20px 0;
+  color: grey;
+}
+.input-group-text {
+  width: 90px;
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: grey;
+}
+.transaction-number {
+  border-color: grey;
+}
+.add-transaction {
+  padding: 10px 40px 0 40px;
+}
+.random-transactions {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
 }
