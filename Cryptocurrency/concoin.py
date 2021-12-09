@@ -1,6 +1,5 @@
 # Importing the required libraries and modules.
 from blockchain import Blockchain
-from uuid import uuid4
 from urllib.parse import urlparse
 
 # Creating the class for our cryptocurrency: Concoin.
@@ -16,7 +15,7 @@ class Concoin(Blockchain):
         parsed_url = urlparse(address)
         self.nodes.add(parsed_url.netloc)
 
-    # Function to add transaction to our mempool. 
+    # Function to add transaction to our mempool.
     def add_transaction(self, sender, receiver, amount):
         transaction = {
             'sender': sender,
@@ -27,10 +26,10 @@ class Concoin(Blockchain):
 
     # Function to get the list of maximum first five transactions.
     def get_transaction_data(self):
-        if len(self.transactions_pool)<5:
+        if len(self.transactions_pool) < 5:
             return self.transactions_pool.copy()
         return self.transactions_pool[:5].copy()
-    
+
     # Function to remove the same number of transactions as we added to a new block.
     def remove_transactions(self, n):
         if len(self.transactions_pool) == n:
@@ -46,4 +45,3 @@ class Concoin(Blockchain):
         self.add_block(data)
         self.remove_transactions(len(data))
         return True
-
