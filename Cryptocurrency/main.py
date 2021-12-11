@@ -66,4 +66,5 @@ def add_random_transactions():
     return redirect('/'), 302
 
 # Running our flask app.
-app.run('localhost', 5000, debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8100, debug=True)
