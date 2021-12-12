@@ -1,6 +1,7 @@
 # Importing the required libraries and modules.
 from blockchain import Blockchain
 from urllib.parse import urlparse
+import time
 
 # Creating the class for our cryptocurrency: Concoin.
 class Concoin(Blockchain):
@@ -42,6 +43,7 @@ class Concoin(Blockchain):
         if data == []:
             print('Empty transaction pool.!')
             return False
+        time.sleep(1)
         self.add_block(data)
         self.remove_transactions(len(data))
         return True
